@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+application-remote:
+  endpoint: ${APP_PROTOCOL:http}://${APP_HOST:localhost:8080}/welcome
+
+keycloak-remote:
+  token:
+    reissue-timeout: 60000
+  credentials:
+    username: ${KC_USERNAME:root}
+    password: ${KC_PASSWORD:password}
+  service:
+    realm: ${KC_REALM:demo-realm}
+    resource: ${KC_RESOURCE:ui}
+    public-protocol: ${PUBLIC_PROTOCOL:http}
+    public-domain: ${PUBLIC_DOMAIN:localhost:9000}
+    private-domain: ${KC_AUTH_PROXY_HOST:localhost:9000}

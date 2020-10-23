@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  keycloak:
+    build:
+      dockerfile: Dockerfile
+      context: ./keycloak/
+    restart: always
+    ports:
+      - "9000:8080"
+    environment:
+      KEYCLOAK_USER: "root"
+      KEYCLOAK_PASSWORD: "password"
+      PROXY_ADDRESS_FORWARDING: "true"
+  application:
+    depends_on:
+      - keycloak
+    build:
+      dockerfile: Dockerfile
+      context: ./application/
+    restart: always
+    environment:
+      KC_AUTH_PROXY_HOST: "keycloak:8080"
+  client:
+    depends_on:
+      - keycloak
+      - application
+    build:
+      dockerfile: Dockerfile
+      context: ./client/
+    restart: always
+    environment:
+      APP_HOST: "application:8080"
+      KC_AUTH_HOST: "localhost:9000"
+      KC_AUTH_PROXY_HOST: "keycloak:8080"
+  gateway:
+    depends_on:
+      - application
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway/
+    restart: always
+    ports:
+      - "8080:80"

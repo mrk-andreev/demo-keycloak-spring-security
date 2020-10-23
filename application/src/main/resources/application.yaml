@@ -1,0 +1,15 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+keycloak:
+  enabled: ${KC_ENABLED:true}
+  auth-server-url: ${KC_AUTH_PROTOCOL:http}://${KC_AUTH_HOST:localhost:9000}/auth
+  proxy-url: ${KC_AUTH_PROXY_PROTOCOL:http}://${KC_AUTH_PROXY_HOST:localhost:9000}/auth
+  realm: ${KC_REALM:demo-realm}
+  bearer-only: true
+  resource: ${KC_RESOURCE:ui}
+  ssl-required: NONE
+  use-resource-role-mappings: false
+  cors: true
+  expose-token: true
